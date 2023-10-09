@@ -1,5 +1,4 @@
 # OpenAI_Translator
-# OpenAI_Translator
 # README for Text Translation and Tokenization Pipeline 🌐🔠
 
 ## Overview 📑
