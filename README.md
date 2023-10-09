@@ -1,62 +1,84 @@
-# OpenAI_Translator
-# README for Text Translation and Tokenization Pipeline 🌐🔠
+# Text Translation and Tokenization Pipeline: Enhanced Edition 🌐🔠
 
-## Overview 📑
+## Summary 📈
 
-This Python script provides a pipeline for text translation and tokenization. Specifically, it focuses on translating English text to Arabic, while also implementing text wrapping and tokenization features. It integrates OpenAI's GPT-3 and TikToken for generating the translations and handling tokens.
+Leverage the robust capabilities of OpenAI's GPT-3.5 Turbo for advanced text translation from English to Arabic. This Python-based pipeline offers a comprehensive suite of features including text wrapping and tokenization, powered by TikToken.
 
 ---
 
-## Table of Contents 📖
+## Table of Contents 📚
 
-- [Overview](#overview)
+- [Executive Summary](#executive-summary)
+- [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Code Structure](#code-structure)
-- [Contribution](#contribution)
+  - [Basic Operation](#basic-operation)
+  - [Configuration Options](#configuration-options)
+- [Functionality Overview](#functionality-overview)
+- [Contributions](#contributions)
+
 
 ---
 
-## Installation 🛠️
+## Prerequisites 🛠️
 
-1. Clone the GitHub repository:
-    ```
+1. Python 3.x
+2. OpenAI API Key
+3. Pip package manager
+
+---
+
+## Installation 📦
+
+1. Clone the repository to your local environment:
+    ```bash
     git clone https://github.com/AlghamdiMuath/OpenAI_Translator.git
     ```
-2. Navigate into the directory:
-    ```
+2. Change into the project directory:
+    ```bash
     cd OpenAI_Translator
     ```
-3. Install required Python packages:
-    ```
+3. Install necessary Python packages:
+    ```bash
     pip install -r requirements.txt
     ```
-4. Add your OpenAI API Key to the PATH as `OPENAI_API_KEY=your_key_here`.
+4. Populate the `.env` file with your OpenAI API Key:
+    ```bash
+    echo "OPENAI_API_KEY=your_key_here" > .env
+    ```
 
 ---
 
-## Usage 🚀
+## Usage 📖
 
-1. Place the text file to be translated into the `file_path` directory.
-2. Run the main script:
-    ```
+### Basic Operation ⚙️
+
+1. Place the text file to be translated at the specified `INPUT_FILE` location.
+2. Execute the Python script:
+    ```bash
     python main.py
     ```
-3. The translated text will be saved into the `output path` file.
+3. Retrieve the translated Arabic text from the designated `OUTPUT_FILE` location.
+
+### Configuration Options 🛠️
+
+1. Adjust the `translation_template` for specialized translation criteria.
+2. Modify `max_chunk_size` to handle large text files in segmented portions.
 
 ---
 
-## Code Structure 🏗️
+## Functionality Overview 📘
 
-- `wrap_text()`: Wraps text to a specified width.
-- `tokenize_file()`: Tokenizes a text file using TikToken.
-- `split_tokens_into_chunks()`: Splits tokens into smaller chunks.
-- `convert_token_Chunks_into_text()`: Converts token chunks back to text.
-- `get_completion()`: Retrieves translation from OpenAI GPT-3.
-- `runner()`: The main function that handles the translation pipeline.
+- `wrap_text_to_fixed_width()`: Text wrapping according to specified width.
+- `tokenize_text_from_file()`: Tokenization of text files, supporting diverse language models.
+- `partition_tokens_into_chunks()`: Token segmentation to control overflow.
+- `convert_chunks_to_text()`: Conversion of token segments back into textual format.
+- `get_translated_text()`: Utilizes OpenAI's GPT-3.5 Turbo for high-quality translation.
+- `execute_translation()`: Coordinates the complete translation and tokenization process.
 
 ---
 
-## Contribution 👥
+## Contributions 🤝
 
-Feel free to contribute to this project by forking the repository and making pull requests, or by opening issues with suggestions and bug reports!
+Contributions are welcome. Please feel free to fork this repository, submit pull requests, or report issues to improve the project.
+
