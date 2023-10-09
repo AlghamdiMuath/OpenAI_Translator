@@ -8,7 +8,7 @@ Leverage the robust capabilities of OpenAI's GPT-3.5 Turbo for advanced text tra
 
 ## Table of Contents 📚
 
-- [Executive Summary](#executive-summary)
+- [Summary](#summary)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
