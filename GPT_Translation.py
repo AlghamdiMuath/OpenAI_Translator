@@ -1,4 +1,7 @@
-# Import required libraries
+#!/usr/bin/env python
+# coding: utf-8
+
+# Importing necessary libraries
 import textwrap
 import os
 import openai
@@ -6,74 +9,71 @@ import tiktoken
 from dotenv import load_dotenv, find_dotenv
 
 # Load environment variables from a .env file
-load_dotenv(find_dotenv())
+_ = load_dotenv(find_dotenv())
 
-# Function to wrap text to a given width
-def wrap_text(text, width=120):
+# Function to wrap text to a specified width
+def wrap_text_to_fixed_width(text, width=120):
     wrapper = textwrap.TextWrapper(width=width)
     return wrapper.fill(text=text)
 
-# Function to tokenize a given text file
-def tokenize_file(file_path, model):
+# Function to tokenize the content of a given text file
+def tokenize_text_from_file(file_path, model):
     with open(file_path, 'r', encoding="utf8") as file:
         text = file.read()
     encoding = tiktoken.get_encoding(model)
     tokens = encoding.encode(text)
     return tokens
 
-# Function to split tokens into chunks of a specified size
-def split_tokens_into_chunks(tokens, chunk_size):
-    num_chunks = (len(tokens) + chunk_size - 1) // chunk_size
-    chunks = [tokens[i * chunk_size:(i + 1) * chunk_size] for i in range(num_chunks)]
+# Function to split tokens into smaller chunks based on a given size
+def partition_tokens_into_chunks(tokens, max_chunk_size):
+    num_chunks = (len(tokens) + max_chunk_size - 1) // max_chunk_size
+    chunks = [tokens[i * max_chunk_size:(i + 1) * max_chunk_size] for i in range(num_chunks)]
     return chunks
 
-# Function to convert token chunks back into text
-def convert_token_Chunks_into_text(token_chunks, model):
+# Function to convert token chunks back into text form
+def convert_chunks_to_text(token_chunks, model):
     encoding = tiktoken.get_encoding(model)
-    text_chunks = []
-    for chunk in token_chunks:
-        text_chunks.append(encoding.decode(chunk))
+    text_chunks = [encoding.decode(chunk) for chunk in token_chunks]
     return text_chunks
 
-# Function to get a translation using OpenAI's GPT-3.5-turbo
-def get_completion(prompt, model="gpt-3.5-turbo"):
+# Function to get translated text using OpenAI's model
+def get_translated_text(prompt, model="gpt-3.5-turbo"):
     messages = [{"role": "user", "content": prompt}]
     response = openai.ChatCompletion.create(
         model=model,
         messages=messages,
-        temperature=0
+        temperature=0,
     )
     return response.choices[0].message["content"]
 
-# Function to generate Arabic text based on a template and English text
-def runner(template, text):
-    query = template + text
-    arabic_text = get_completion(query)
+# Function to execute the entire translation process
+def execute_translation(template, text_to_translate):
+    query = template + text_to_translate
+    arabic_text = get_translated_text(query)
     return arabic_text
 
-# Define paths, chunk size, and model
-file_path = 'Path_Of_Input_EnglishTextFile'
-output_path = 'Path_For_Output_ArabicTextFile'
-chunk_size = 1000
-model = "cl100k_base"
+# Main Execution Code
+if __name__ == "__main__":
+    input_file_path = 'INPUT_FILE'
+    output_file_path = 'OUTPUT_FILE'
+    max_chunk_size = 1000
+    model_name = "cl100k_base"
 
-# Tokenize the file and split into chunks
-tokens = tokenize_file(file_path, model)
-token_chunks = split_tokens_into_chunks(tokens, chunk_size)
-text_chunks = convert_token_Chunks_into_text(token_chunks, model)
-print(len(text_chunks), len(token_chunks))
+    # Tokenization and Chunking
+    tokens = tokenize_text_from_file(input_file_path, model_name)
+    token_chunks = partition_tokens_into_chunks(tokens, max_chunk_size)
+    text_chunks = convert_chunks_to_text(token_chunks, model_name)
 
-# Translation template
-template = '''You are a professional translator,
-you excel in translating from English to Arabic
-word for word maintaining the structure and the context.\
-Your task is to translate the following English text to \
-Arabic perfectly and without missing any words.\
+    translation_template = '''You are a professional translator,
+    you excel in translating from English to Arabic
+    word for word maintaining the structure and the context.\
+    Your task is to translate the following English text to \
+    Arabic perfectly and without missing any words.\
 
-English text: '''
-
-# Translate and write to file
-for text in text_chunks:
-    arabic_text = runner(template, text)
-    with open(output_path, 'a', encoding='utf-8') as file:
-        file.write(arabic_text)
+    English text: '''
+    
+    # Translation and Writing to File
+    for text_chunk in text_chunks:
+        translated_text = execute_translation(translation_template, text_chunk)
+        with open(output_file_path, 'a', encoding='utf-8') as output_file:
+            output_file.write(translated_text)
